@@ -1,0 +1,198 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #f4f4f5;
+    background-color: #09090b;
+  }
+}
+
+/* 3D Animated Button System - 70% Black & 30% Light Blue Theme */
+@layer components {
+  /* Primary Light Blue 3D Button (Radiant Light Blue) */
+  .btn-3d-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, #7dd3fc 0%, #38bdf8 55%, #0284c7 100%);
+    color: #04131f;
+    font-weight: 800;
+    border: 1px solid #7dd3fc;
+    border-bottom: 4px solid #0369a1;
+    border-radius: 0.875rem;
+    box-shadow: 0 4px 0 0 #0284c7, 0 8px 20px -2px rgba(56, 189, 248, 0.45);
+    transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform: translateY(0);
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-3d-primary::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 35%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 100%);
+    border-radius: 0.875rem 0.875rem 50% 50%;
+    pointer-events: none;
+  }
+
+  .btn-3d-primary:hover {
+    background: linear-gradient(180deg, #bae6fd 0%, #7dd3fc 55%, #38bdf8 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 0 #0284c7, 0 14px 24px -2px rgba(56, 189, 248, 0.6);
+  }
+
+  .btn-3d-primary:active {
+    transform: translateY(3px);
+    border-bottom-width: 1px;
+    box-shadow: 0 1px 0 0 #0284c7, 0 3px 8px rgba(56, 189, 248, 0.3);
+  }
+
+  /* Secondary Deep Black / Light Blue Rim 3D Button (formerly btn-3d-white) */
+  .btn-3d-white,
+  .btn-3d-dark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, #27272a 0%, #18181b 60%, #121215 100%);
+    color: #f4f4f5;
+    font-weight: 700;
+    border: 1px solid #3f3f46;
+    border-bottom: 4px solid #09090b;
+    border-radius: 0.875rem;
+    box-shadow: 0 4px 0 0 #09090b, 0 8px 16px -2px rgba(0, 0, 0, 0.6);
+    transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform: translateY(0);
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-3d-white::after,
+  .btn-3d-dark::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 35%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 100%);
+    border-radius: 0.875rem 0.875rem 50% 50%;
+    pointer-events: none;
+  }
+
+  .btn-3d-white:hover,
+  .btn-3d-dark:hover {
+    background: #27272a;
+    color: #7dd3fc;
+    border-color: #38bdf8;
+    border-bottom-color: #0284c7;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 0 #0284c7, 0 12px 20px -2px rgba(56, 189, 248, 0.25);
+  }
+
+  .btn-3d-white:active,
+  .btn-3d-dark:active {
+    transform: translateY(3px);
+    border-bottom-width: 1px;
+    box-shadow: 0 1px 0 0 #09090b, 0 2px 6px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Light Blue Border 3D Button (Outline / Secondary Accent) */
+  .btn-3d-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, #0f172a 0%, #090d16 100%);
+    color: #38bdf8;
+    font-weight: 700;
+    border: 1.5px solid #0ea5e9;
+    border-bottom: 4px solid #0369a1;
+    border-radius: 0.875rem;
+    box-shadow: 0 4px 0 0 #0369a1, 0 8px 18px -2px rgba(56, 189, 248, 0.35);
+    transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform: translateY(0);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .btn-3d-outline:hover {
+    background: #082f49;
+    color: #bae6fd;
+    border-color: #7dd3fc;
+    border-bottom-color: #0284c7;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 0 #0284c7, 0 14px 24px -2px rgba(56, 189, 248, 0.5);
+  }
+
+  .btn-3d-outline:active {
+    transform: translateY(3px);
+    border-bottom-width: 1px;
+    box-shadow: 0 1px 0 0 #0369a1, 0 2px 4px rgba(56, 189, 248, 0.2);
+  }
+
+  /* 3D Pill Button (Filters / Small Actions) */
+  .btn-3d-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #18181b;
+    color: #d4d4d8;
+    font-weight: 600;
+    border: 1px solid #27272a;
+    border-bottom: 3px solid #09090b;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 0 0 #09090b, 0 4px 8px -1px rgba(0, 0, 0, 0.5);
+    transition: all 0.15s ease-out;
+    transform: translateY(0);
+    cursor: pointer;
+  }
+
+  .btn-3d-pill:hover {
+    background: #27272a;
+    color: #38bdf8;
+    border-color: #38bdf8;
+    border-bottom-color: #0284c7;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 0 0 #0284c7, 0 6px 14px -1px rgba(56, 189, 248, 0.25);
+  }
+
+  .btn-3d-pill:active {
+    transform: translateY(2px);
+    border-bottom-width: 1px;
+    box-shadow: 0 1px 0 0 #09090b;
+  }
+
+  .btn-3d-pill-active {
+    background: linear-gradient(180deg, #7dd3fc 0%, #38bdf8 100%);
+    color: #04131f;
+    font-weight: 800;
+    border: 1px solid #7dd3fc;
+    border-bottom: 3px solid #0284c7;
+    box-shadow: 0 2px 0 0 #0284c7, 0 4px 12px rgba(56, 189, 248, 0.45);
+  }
+
+  .btn-3d-pill-active:hover {
+    background: #bae6fd;
+    border-bottom-color: #0369a1;
+  }
+}
+
+/* Ensure all interactive buttons have subtle 3D tactile feedback */
+button:not([disabled]), a[role="button"] {
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+}
+button:not([disabled]):active, a[role="button"]:active {
+  transform: translateY(1.5px);
+}
