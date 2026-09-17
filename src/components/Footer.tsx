@@ -190,7 +190,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenConsultation }
         {/* Bottom Bar: Copyright, Compliance & Legal */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
           <p>© {currentYear} GrowthEdge. All Rights Reserved.</p>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
             <button
               onClick={() => handleLinkClick('privacy')}
               className="hover:text-sky-300 transition-colors cursor-pointer"

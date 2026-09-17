@@ -22,27 +22,49 @@ import { NotFoundPage } from './pages/NotFoundPage';
 import { LegalPage } from './pages/LegalPages';
 
 export default function App() {
-  // Initialize route from current window path or hash
+  // Known valid page routes
+  const VALID_ROUTES: PageRoute[] = [
+    'home',
+    'services',
+    'seo-services',
+    'off-page-seo',
+    'local-seo',
+    'social-media-marketing',
+    'about',
+    'reviews',
+    'blog',
+    'contact',
+    'thank-you',
+    'privacy',
+    'terms',
+  ];
+
+  // Initialize route supporting subpaths (e.g. GitHub Pages https://user.github.io/repo/) and hash routing
   const getInitialRoute = (): PageRoute => {
-    const path = window.location.pathname.replace(/^\/+|\/+$/g, '');
-    const hash = window.location.hash.replace(/^#\/?/, '');
-    const target = path || hash;
+    // 1. Check hash first (e.g. #services or #/services)
+    const rawHash = window.location.hash.replace(/^#\/?/, '').split('?')[0].trim();
+    if (rawHash) {
+      if (VALID_ROUTES.includes(rawHash as PageRoute)) {
+        return rawHash as PageRoute;
+      }
+      if (rawHash === '' || rawHash === 'home') return 'home';
+    }
 
-    if (!target) return 'home';
-    if (target === 'services') return 'services';
-    if (target === 'seo-services') return 'seo-services';
-    if (target === 'off-page-seo') return 'off-page-seo';
-    if (target === 'local-seo') return 'local-seo';
-    if (target === 'social-media-marketing') return 'social-media-marketing';
-    if (target === 'about') return 'about';
-    if (target === 'reviews') return 'reviews';
-    if (target === 'blog') return 'blog';
-    if (target === 'contact') return 'contact';
-    if (target === 'thank-you') return 'thank-you';
-    if (target === 'privacy') return 'privacy';
-    if (target === 'terms') return 'terms';
+    // 2. Check path segments (handles both root domains and subpath repos)
+    const segments = window.location.pathname.split('/').filter(Boolean);
+    if (segments.length === 0) return 'home';
 
-    return '404';
+    const lastSegment = segments[segments.length - 1];
+    if (VALID_ROUTES.includes(lastSegment as PageRoute)) {
+      return lastSegment as PageRoute;
+    }
+
+    // If segments length is 1 (e.g. /my-repo/ on GitHub Pages), default to 'home'
+    if (segments.length === 1) {
+      return 'home';
+    }
+
+    return 'home';
   };
 
   const [currentRoute, setCurrentRoute] = useState<PageRoute>(getInitialRoute);
@@ -51,26 +73,38 @@ export default function App() {
   // Synchronize route with browser history and document title/meta
   const navigateTo = (route: PageRoute) => {
     setCurrentRoute(route);
-    const newPath = route === 'home' ? '/' : `/${route}`;
 
     try {
-      window.history.pushState({ route }, '', newPath);
+      // Support hash for maximum static hosting reliability (GitHub Pages, Cloudflare)
+      window.location.hash = route === 'home' ? '' : `#${route}`;
+
+      // If running at root path, also update path
+      const segments = window.location.pathname.split('/').filter(Boolean);
+      if (segments.length <= 1) {
+        const basePath = segments.length === 1 ? `/${segments[0]}` : '';
+        const newPath = route === 'home' ? (basePath || '/') : `${basePath}/${route}`;
+        window.history.pushState({ route }, '', newPath);
+      }
     } catch {
-      // Fallback for sandboxed frames if history.pushState is restricted
+      // Fallback safe for restrictive iframes
       window.location.hash = route === 'home' ? '' : `#${route}`;
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Handle browser back/forward buttons
+  // Handle browser back/forward and hash changes
   useEffect(() => {
-    const handlePopState = () => {
+    const handleRouteChange = () => {
       setCurrentRoute(getInitialRoute());
     };
 
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    window.addEventListener('popstate', handleRouteChange);
+    window.addEventListener('hashchange', handleRouteChange);
+    return () => {
+      window.removeEventListener('popstate', handleRouteChange);
+      window.removeEventListener('hashchange', handleRouteChange);
+    };
   }, []);
 
   // Update dynamic SEO title & meta description per route

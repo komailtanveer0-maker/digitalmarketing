@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting...</title>
+    <script>
+      // Single Page App redirect for GitHub Pages
+      (function() {
+        var pathSegments = location.pathname.split('/').filter(Boolean);
+        var repoName = pathSegments.length > 0 ? '/' + pathSegments[0] : '';
+        var targetRoute = pathSegments.length > 1 ? pathSegments.slice(1).join('/') : '';
+        var redirectUrl = location.origin + repoName + '/#' + targetRoute + (location.search || '');
+        location.replace(redirectUrl);
+      })();
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to GrowthEdge...</p>
+  </body>
+</html>
